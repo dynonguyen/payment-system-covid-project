@@ -1,0 +1,26 @@
+{
+	"name": "payment-system-covid-project",
+	"version": "1.0.0",
+	"description": "Hệ thống thnah toán cho dự án quản lý Covid-19",
+	"main": "index.js",
+	"repository": "https://github.com/TuanNguyen2504/payment-system-covid-project",
+	"author": "18120144-18120606-18120609-18120634",
+	"license": "MIT",
+	"scripts": {
+		"start": "node ./src/index.js",
+		"dev": "nodemon ./src/index.js"
+	},
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"cookie-parser": "^1.4.6",
+		"dotenv": "^10.0.0",
+		"express": "^4.17.1",
+		"morgan": "^1.10.0",
+		"pg": "^8.7.1",
+		"pg-hstore": "^2.3.4",
+		"sequelize": "^6.12.2"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.15"
+	}
+}
