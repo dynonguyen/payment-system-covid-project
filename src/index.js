@@ -5,8 +5,9 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const { db } = require('./configs/db.config');
+const testApi = require('./apis/test.api');
 
-/* ============== Import ruote =============== */
+/* ============== Import api =============== */
 
 /* ============== Config =============== */
 app.use(express.json({}));
@@ -17,9 +18,7 @@ app.use(cookieParser(process.env.SIGNED_COOKIE || 'signed_cookie'));
 app.use(morgan('tiny'));
 
 /* ============== APis =============== */
-app.get('/', (req, res) =>
-	res.status(200).json({ msg: 'Hello Payment System' })
-);
+app.use('/', testApi);
 
 /* ============== Listening =============== */
 const normalizePort = (port) => parseInt(port, 10);
