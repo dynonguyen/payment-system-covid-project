@@ -5,27 +5,50 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const { db } = require('./configs/db.config');
+const path = require('path');
+const { MAX } = require('./constants');
+const session = require('express-session');
+const passport = require('passport');
 
 /* ============== Import apis, middleware =============== */
-const {
-	clientAuthentication,
-} = require('./middleware/authentication.middleware');
-const authApi = require('./apis/auth.api');
+const { apiAuthentication } = require('./middleware/authentication.middleware');
+const apiRoute = require('./routes/api.route');
+const authRoute = require('./routes/auth.route');
+const { unlessRoute, authMiddleware } = require('./middleware/auth.middleware');
 
 /* ============== Config =============== */
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({}));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SIGNED_COOKIE || 'signed_cookie'));
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET || 'session_secret',
+		resave: false,
+		saveUninitialized: true,
+		cookie: {
+			maxAge: MAX.SESSION_EXP,
+		},
+	})
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// set view engine
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 // set logging
 app.use(morgan('tiny'));
 
 /* ============== Apis =============== */
-app.use(clientAuthentication);
+app.use(unlessRoute(['/auth'], authMiddleware));
 
-app.use('/auth', authApi);
+app.use('/api', apiAuthentication, apiRoute);
+app.use('/auth', authRoute);
+app.use('/', (req, res) => res.send('Home'));
 
-app.use((req, res) => res.status(404).json({ msg: 'Not Found' }));
+app.use((req, res) => res.render('404.pug'));
 
 /* ============== Listening =============== */
 const normalizePort = (port) => parseInt(port, 10);

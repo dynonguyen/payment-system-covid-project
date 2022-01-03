@@ -24,6 +24,14 @@ const Account = db.define(
 			type: DataTypes.STRING(72),
 			allowNull: true,
 		},
+		failedLoginTime: {
+			type: DataTypes.SMALLINT,
+			defaultValue: 0,
+		},
+		isLocked: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
+		},
 		balance: {
 			type: DataTypes.BIGINT,
 			allowNull: false,

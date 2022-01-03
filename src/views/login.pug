@@ -1,0 +1,34 @@
+extends ./templates/general.template.pug
+
+block title 
+  title Đăng nhập | CP Payment System
+
+block append style 
+  link(rel="stylesheet", href="/css/auth-form.css")
+
+block content
+  .row.flex-center.vh-100
+    .col-lg-3.col-md-2
+    .col-lg-6.col-md-8.form-box(style="max-width: 420px")
+      .col-lg-12.form-key
+        i.bi.bi-key-fill(aria-hidden="true")
+      .col-lg-12.form-title ĐĂNG NHẬP
+      .col-lg-12.form-sub-title Không cần mật khẩu trong lần đăng nhập đầu tiên
+      .col-lg-12.form-form
+        form#loginForm(action="/auth/login", method="POST")
+          .form-group
+            label.form-control-label(for="username") USERNAME
+            input.form-control#username(type="text", name="username", value=username ? username : "" autofocus, maxLength="20")
+          .form-group
+            label.form-control-label(for="password") MẬT KHẨU
+            .position-relative.mb-5
+              input.form-control#password(type="password", name="password", maxLength="50")
+              i.bi.bi-eye-slash-fill.view-password-icon
+          .col-lg-12.p-0.mb-4.d-flex.justify-content-between.align-items-center
+            .form-text.text-danger#formMsg= msg ? msg : ""
+            .form-button
+              button.btn.btn-outline-primary(type="submit") Đăng nhập
+    .col-lg-3.col-md-2
+
+block append script 
+  script(src="/js/login.js") 

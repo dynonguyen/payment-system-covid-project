@@ -1,37 +1,62 @@
 const Account = require('../models/account.model');
-const { Op } = require('../configs/db.config');
+const { hashPassword } = require('../helpers');
+const passport = require('passport');
+require('../middleware/passport.middleware');
 
-exports.postCreateAccount = async (req, res) => {
-	const { username, userId } = req.body;
+exports.getLogin = (req, res) => {
+	if (req.isAuthenticated()) {
+		return res.redirect('/');
+	}
+	return res.render('login.pug');
+};
 
+exports.getLogout = (req, res) => {
+	req.logout();
+	return res.redirect('/auth/login');
+};
+
+exports.postLogin = async (req, res, next) => {
+	passport.authenticate('local', function (error, user, info) {
+		if (error) {
+			return res.render('login.pug', {
+				msg: 'Đăng nhập thất bại, thử lại !',
+			});
+		}
+
+		if (!user) {
+			const { isCreatePwd = false, msg, username } = info;
+			if (isCreatePwd) {
+				return res.render('create-password.pug', {
+					username,
+				});
+			}
+
+			return res.render('login.pug', {
+				msg,
+				username,
+			});
+		}
+
+		req.login(user, function (err) {
+			if (err) {
+				return res.render('404.pug');
+			}
+			return res.redirect('/');
+		});
+	})(req, res, next);
+};
+
+exports.postCreatePassword = async (req, res) => {
+	const { username } = req.params;
+	const { password } = req.body;
 	try {
-		if (!username || !userId) {
-			throw 'username & userId is required !';
+		if (username && password) {
+			const hashPw = await hashPassword(password);
+			await Account.update({ password: hashPw }, { where: { username } });
+			return res.redirect('/auth/login');
 		}
-
-		const isAccountExist = await Account.findOne({
-			where: {
-				[Op.or]: [{ username }, { userId }],
-			},
-		});
-		if (isAccountExist) {
-			throw 'Account already exists !';
-		}
-
-		const newAccount = await Account.create({
-			username,
-			userId,
-			password: '',
-			balance: 0,
-		});
-
-		if (!newAccount) {
-			throw 'Account creation failed !';
-		}
-
-		return res.status(201).json({ msg: 'Successfully' });
 	} catch (error) {
-		console.error('Function postCreateAccount Error: ', error);
-		return res.status(400).json({ msg: error });
+		console.error('Function postCreatePassword Error: ', error);
+		return res.render('/auth/login');
 	}
 };

@@ -42,6 +42,10 @@ const PaymentHistory = db.define(
 			allowNull: false,
 			defaultValue: new Date(),
 		},
+		content: {
+			type: DataTypes.STRING(255),
+			allowNull: true,
+		},
 	},
 	{ tableName: 'PaymentHistory', timestamps: false, initialAutoIncrement: 1 }
 );

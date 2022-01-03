@@ -1,0 +1,135 @@
+body {
+	background: #222d32;
+	font-family: 'Roboto', sans-serif;
+}
+
+.form-box {
+	height: auto;
+	background: #1a2226;
+	text-align: center;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	padding: 1.75rem 1.25rem;
+}
+
+.form-key {
+	height: 100px;
+	font-size: 80px;
+	line-height: 100px;
+	background: -webkit-linear-gradient(var(--primary), var(--danger));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.form-title {
+	margin-top: 10px;
+	text-align: center;
+	font-size: 30px;
+	letter-spacing: 2px;
+	font-weight: bold;
+	color: var(--light-gray);
+}
+
+.form-sub-title {
+	color: var(--gray);
+	font-size: 16px;
+	margin-top: 8px;
+}
+
+.form-form {
+	margin-top: 25px;
+	text-align: left;
+}
+
+input[type='text'] {
+	background-color: #1a2226;
+	border: none;
+	border-bottom: 2px solid var(--primary);
+	border-top: 0px;
+	border-radius: 0px;
+	font-weight: 400;
+	outline: 0;
+	margin-bottom: 20px;
+	padding-left: 0px;
+	color: var(--light-gray);
+}
+
+input[type='password'] {
+	background-color: #1a2226;
+	border: none;
+	border-bottom: 2px solid var(--primary);
+	border-top: 0px;
+	border-radius: 0px;
+	font-weight: bold;
+	outline: 0;
+	padding-left: 0px;
+	color: var(--light-gray);
+}
+
+.view-password-icon {
+	position: absolute;
+	right: 0.75rem;
+	color: var(--gray);
+	top: 50%;
+	transform: translateY(-50%);
+	cursor: pointer;
+}
+
+.view-password-icon.bi-eye-fill {
+	color: var(--primary);
+}
+
+.form-group {
+	margin-bottom: 40px;
+	outline: 0px;
+}
+
+.form-control:focus {
+	border-color: inherit;
+	box-shadow: none;
+	border-bottom: 2px solid var(--primary);
+	outline: 0;
+	background-color: #1a2226;
+	color: var(--light-gray);
+}
+
+input:focus {
+	outline: none;
+	box-shadow: 0 0 0;
+}
+
+label {
+	margin-bottom: 0px;
+}
+
+.form-control-label {
+	font-size: 12px;
+	color: var(--gray);
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+.btn-outline-primary {
+	border-color: var(--primary);
+	color: var(--primary);
+	border-radius: 8px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.btn-outline-primary:hover {
+	background-color: var(--primary);
+	right: 0px;
+}
+
+.form-button {
+	padding-right: 0px;
+	text-align: right;
+	flex-basis: 120px;
+	flex-shrink: 0;
+}
+
+.form-text {
+	text-align: left;
+	padding-left: 0px;
+}
