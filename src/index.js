@@ -5,7 +5,9 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const { db } = require('./configs/db.config');
-const testApi = require('./apis/test.api');
+const {
+	clientAuthentication,
+} = require('./middleware/authentication.middleware');
 
 /* ============== Import api =============== */
 
@@ -17,8 +19,10 @@ app.use(cookieParser(process.env.SIGNED_COOKIE || 'signed_cookie'));
 // set logging
 app.use(morgan('tiny'));
 
-/* ============== APis =============== */
-app.use('/', testApi);
+/* ============== Apis =============== */
+app.use(clientAuthentication);
+
+app.get('/', (_, res) => res.json({ msg: 'Hello' }));
 
 /* ============== Listening =============== */
 const normalizePort = (port) => parseInt(port, 10);
