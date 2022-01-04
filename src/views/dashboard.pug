@@ -2,12 +2,25 @@ extends ./templates/general.template.pug
 include ./mixins/header.mixin.pug
 include ./mixins/footer.mixin.pug
 
+block title 
+  title PayCP | Tổng quan
+
 block append style
   link(rel="stylesheet", href="/css/header.css")
+  link(rel="stylesheet", href="/css/dashboard.css")
 
 block content
   +header
-  p Hello
+
+  .box
+    h2.box-title Số dư hiện tại
+    .mt-3.mb-4.d-flex.flex-column
+      span.balance=helpers.formatCurrency(balance || 0)
+      span.available Khả dụng
+
+    button.btn.btn-primary
+      a(href="/put-money") Nạp tiền
+
   +footer
 
 block append script 

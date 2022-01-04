@@ -6,7 +6,7 @@
 	--gray: #888;
 	--dark: #1e1e1e;
 	--transition: all ease-in-out 0.35s;
-	--sm-box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.2);
+	--box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
 	--text-color: #1e1e1e;
 }
 
@@ -15,6 +15,7 @@ body {
 	overflow-x: hidden;
 	box-sizing: border-box;
 	font-family: 'Montserrat', sans-serif;
+	background-color: #f5f7fa;
 }
 
 html {
@@ -31,6 +32,7 @@ html {
 
 a {
 	text-decoration: none !important;
+	color: #fff !important;
 }
 
 .disabled {
@@ -55,24 +57,12 @@ a {
 	align-items: center;
 }
 
-.m-0-auto {
-	margin: 0 auto;
-}
-
 .cur-pointer {
 	cursor: pointer;
 }
 
 .text-gray {
 	color: var(--gray);
-}
-
-.sm-box-shadow {
-	box-shadow: var(--sm-box-shadow) !important;
-}
-
-.box-rounded {
-	border-radius: 8px;
 }
 
 /* ----------- button ------------- */
@@ -92,69 +82,6 @@ a {
 
 .btn-primary {
 	background-color: var(--primary) !important;
-}
-
-/* ----------- field ------------- */
-.field {
-	outline: none;
-	border: none;
-	padding: 0.5rem 1.25rem;
-	border-radius: 25px;
-	font-size: 1rem;
-	font-weight: 500;
-
-	background-color: var(--field-bg);
-	color: var(--dark);
-}
-
-.field::-webkit-input-placeholder {
-	color: var(--gray);
-}
-
-.field::-moz-placeholder {
-	color: var(--gray);
-}
-
-.field:-ms-input-placeholder {
-	color: var(--gray);
-}
-
-.field::-ms-input-placeholder {
-	color: var(--gray);
-}
-
-.field::placeholder {
-	color: var(--gray);
-}
-
-.field-end-icon {
-	position: absolute;
-	right: 1rem;
-	top: 50%;
-	transform: translateY(-50%);
-	font-size: 1.25rem;
-	color: var(--gray);
-	cursor: pointer;
-}
-
-.field-inline-label {
-	margin-bottom: 0;
-	margin-right: 8px;
-	font-weight: 500;
-	font-size: 1.15rem;
-	color: var(--gray-dark);
-	text-transform: capitalize;
-}
-
-.selectize-input {
-	outline: none !important;
-	border: none !important;
-	box-shadow: none !important;
-	padding: 0.5rem 1.25rem !important;
-	font-size: 1rem !important;
-	font-weight: 500 !important;
-	background-color: var(--field-bg) !important;
-	color: var(--dark) !important;
 }
 
 /* ----------- toasts ------------- */

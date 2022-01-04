@@ -1,0 +1,32 @@
+.box {
+	padding: 1.25rem 2.5rem;
+	max-width: 480px;
+	margin: 2rem auto;
+	border-radius: 12px;
+	box-shadow: var(--box-shadow);
+	background-color: #fff;
+}
+
+.box-title {
+	font-size: 1.15rem;
+	color: var(--primary);
+	font-weight: 600;
+}
+
+.balance {
+	font-size: 2.25rem;
+	font-weight: 300;
+	color: var(--gray-dark);
+	letter-spacing: 1px;
+}
+
+.available {
+	font-size: 0.85rem;
+	color: var(--gray);
+	font-weight: 600;
+}
+
+.btn {
+	border-radius: 25px;
+	padding: 8px 16px;
+}

@@ -46,6 +46,14 @@ const PaymentHistory = db.define(
 			type: DataTypes.STRING(255),
 			allowNull: true,
 		},
+		cardNumber: {
+			type: DataTypes.STRING(19),
+			allowNull: true,
+		},
+		cardName: {
+			type: DataTypes.STRING(50),
+			allowNull: true,
+		},
 	},
 	{ tableName: 'PaymentHistory', timestamps: false, initialAutoIncrement: 1 }
 );

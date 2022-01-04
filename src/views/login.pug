@@ -1,7 +1,7 @@
 extends ./templates/general.template.pug
 
 block title 
-  title Đăng nhập | CP Payment System
+  title Đăng nhập | PayCP
 
 block append style 
   link(rel="stylesheet", href="/css/auth-form.css")
@@ -18,7 +18,7 @@ block content
         form#loginForm(action="/auth/login", method="POST")
           .form-group
             label.form-control-label(for="username") USERNAME
-            input.form-control#username(type="text", name="username", value=username ? username : "" autofocus, maxLength="20")
+            input.form-control#username(type="text", name="username", value=username ? username : "", autofocus, maxLength="20")
           .form-group
             label.form-control-label(for="password") MẬT KHẨU
             .position-relative.mb-5
