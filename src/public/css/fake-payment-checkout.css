@@ -1,0 +1,51 @@
+.box {
+	background-color: #fff;
+	box-shadow: var(--box-shadow);
+	border-radius: 16px;
+}
+
+.header img {
+	width: 5rem;
+	height: 5rem;
+}
+
+.box-container {
+	max-width: 640px;
+	margin: 1.5rem auto 0;
+}
+
+.bank-logo {
+	height: 2.25rem;
+}
+
+.bank-name {
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+
+.title {
+	font-size: 1.15rem;
+	font-weight: 600;
+	color: var(--text-color);
+}
+
+label {
+	color: var(--gray);
+}
+
+.required {
+	color: var(--danger);
+}
+
+.captcha-msg {
+	color: var(--gray);
+	font-size: 0.85rem;
+}
+
+.captcha-img {
+	max-height: 40px;
+}
+
+.form-control {
+	box-shadow: none !important;
+}

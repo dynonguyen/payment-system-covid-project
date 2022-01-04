@@ -16,7 +16,7 @@ $(document).ready(function () {
 		}
 	});
 
-	$('#paymentBtn').click(function () {
+	$('#paymentBtn').click(async function () {
 		const bank = $('input[name="bank"]:checked').val();
 
 		if (!bank) {
@@ -33,12 +33,18 @@ $(document).ready(function () {
 		}
 
 		$(this).addClass('disabled');
-		fetch('/put-money/checkout', {
+		const response = await fetch('/put-money/checkout', {
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
 			body: JSON.stringify({
 				bank,
 				totalMoney,
 			}),
 		});
+
+		const { url = '/' } = (await response.json()) || {};
+		location.href = url;
 	});
 });

@@ -19,6 +19,7 @@ const dashboardRoute = require('./routes/dashboard.route');
 const paymentHistoryRoute = require('./routes/payment-history.route');
 const changePasswordRoute = require('./routes/change-password.route');
 const putMoneyRoute = require('./routes/put-money.route');
+const fakePaymentSystemRoute = require('./routes/fake-payment-system.route');
 
 /* ============== Config =============== */
 app.use(express.static(path.join(__dirname, 'public')));
@@ -28,7 +29,7 @@ app.use(cookieParser(process.env.SIGNED_COOKIE || 'signed_cookie'));
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET || 'session_secret',
-		resave: true,
+		resave: false,
 		saveUninitialized: true,
 		cookie: {
 			maxAge: MAX.SESSION_EXP,
@@ -54,6 +55,7 @@ app.use('/dashboard', dashboardRoute);
 app.use('/payment-history', paymentHistoryRoute);
 app.use('/change-password', changePasswordRoute);
 app.use('/put-money', putMoneyRoute);
+app.use('/xyz-fake-payment-system', fakePaymentSystemRoute);
 app.use('/', (req, res) => res.redirect('/dashboard'));
 
 app.use((req, res) => res.render('404.pug'));
