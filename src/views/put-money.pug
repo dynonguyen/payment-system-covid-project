@@ -1,0 +1,33 @@
+extends ./templates/general.template.pug
+
+block title 
+  title PayCP | Nạp tiền
+
+block append style
+  link(rel="stylesheet", href="/css/put-money.css")
+
+block content
+  .container.my-4
+    .box.py-4.px-5
+      h1.title.text-center.mb-3 Nạp tiền vào tài khoản
+      h2.sub-title.text-center Thanh toán bằng thẻ ngân hàng nội địa (thẻ ATM Online)
+      ul.bank-list#bankList
+        each bank in bankList
+          - const { code, logoUrl, name } = bank;
+          li.bank-item
+            label(for=code)
+              img(src=logoUrl, alt=code, title=name)
+            input(type="radio", name="bank", value=code, id=code)
+
+      .mb-3
+        label.text-gray(for="totalMoney") Số tiền cần nạp (tối thiểu 10.000đ, tối đa 100.000.000đ)
+        input#totalMoney.form-control(type="number", placeholder="Nhập số tiền cần nạp", min="10000", max="10000000")
+
+      p.attention
+        | #[span LƯU Ý]: Quá trình bạn thao tác sẽ được cổng thanh toán #[b XYZ] bảo vệ và chuyển tới Ngân hàng bạn đã chọn, sau đó trả lại kết quả về #[b PayCP]. Để đảm bảo an toàn tuyệt đối cho khách hàng, #[b XYZ] được chọn vì hiện đang là cổng thanh toán uy tín nhất Việt Nam.
+        |#[br] Thẻ của bạn phải đã đăng ký Internet-Banking hoặc dịch vụ thanh toán trực tuyến.
+
+      .text-center.mt-3
+        button.btn.btn-primary.payment-btn#paymentBtn Tiến hành thanh toán&nbsp;&nbsp;#[i.bi.bi-credit-card-fill]
+block append script
+  script(src="/js/put-money.js") 
