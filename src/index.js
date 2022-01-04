@@ -17,6 +17,7 @@ const apiRoute = require('./routes/api.route');
 const authRoute = require('./routes/auth.route');
 const dashboardRoute = require('./routes/dashboard.route');
 const paymentHistoryRoute = require('./routes/payment-history.route');
+const changePasswordRoute = require('./routes/change-password.route');
 
 /* ============== Config =============== */
 app.use(express.static(path.join(__dirname, 'public')));
@@ -50,6 +51,7 @@ app.use('/api', apiAuthentication, apiRoute);
 app.use('/auth', authRoute);
 app.use('/dashboard', dashboardRoute);
 app.use('/payment-history', paymentHistoryRoute);
+app.use('/change-password', changePasswordRoute);
 app.use('/', (req, res) => res.redirect('/dashboard'));
 
 app.use((req, res) => res.render('404.pug'));
