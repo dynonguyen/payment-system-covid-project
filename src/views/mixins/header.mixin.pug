@@ -1,0 +1,15 @@
+mixin header 
+  .navbar-wrap
+    .container.flex-center-between
+      a.logo(href="/dashboard")
+        img(src="/images/logo.png", alt="Logo") 
+      ul.menu.center-vertical
+        li.menu-item
+          a(href="/dashboard") Tổng quan
+        li.menu-item
+          a(href="/payment-history") Lịch sử thanh toán
+        li.menu-item 
+          a(href="/change-password") Đổi mật khẩu
+        li.menu-item
+          a(href="/put-money") Nạp tiền 
+      a.logout.text-uppercase(href="/auth/logout") Đăng xuất

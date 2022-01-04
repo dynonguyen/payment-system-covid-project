@@ -1,0 +1,13 @@
+extends ./templates/general.template.pug
+include ./mixins/header.mixin.pug
+include ./mixins/footer.mixin.pug
+
+block append style
+  link(rel="stylesheet", href="/css/header.css")
+
+block content
+  +header
+  p Hello
+  +footer
+
+block append script 

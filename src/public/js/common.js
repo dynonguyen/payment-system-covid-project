@@ -23,6 +23,15 @@ function formatDateToStr(date) {
 	return `${dd}-${mm}-${y}`;
 }
 
+function autoActiveMenuItem() {
+	const { pathname } = location;
+	$('.menu-item a').each(function () {
+		if ($(this).attr('href') === pathname) {
+			$(this).parents('.menu-item').addClass('active');
+		}
+	});
+}
+
 // auto register when DOM loaded
 $(document).ready(function () {
 	// Hide toast message
@@ -43,4 +52,6 @@ $(document).ready(function () {
 			field.attr('type', 'text');
 		}
 	});
+
+	autoActiveMenuItem();
 });
