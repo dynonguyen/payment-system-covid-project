@@ -20,3 +20,18 @@ exports.formatCurrency = (money = 0) => {
 		currency: 'VND',
 	}).format(money);
 };
+
+// format date
+exports.formatDateToStr = (date) => {
+	const d = new Date(date);
+
+	const s = `0${d.getSeconds()}`;
+	const m = `0${d.getMinutes()}`;
+	const h = `0${d.getHours()}`;
+
+	const y = d.getFullYear();
+	const mm = `0${d.getMonth() + 1}`.slice(-2);
+	const dd = `0${d.getDate()}`.slice(-2);
+
+	return `${s}:${m}:${h} ${dd}-${mm}-${y}`;
+};

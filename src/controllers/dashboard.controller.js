@@ -2,13 +2,11 @@ const { formatCurrency } = require('../helpers');
 const Account = require('../models/account.model');
 
 exports.getDashboardPage = async (req, res) => {
-	const { userId } = req.user;
+	const { accountId } = req.user;
 	try {
 		const account = await Account.findOne({
 			raw: true,
-			where: {
-				userId,
-			},
+			where: { accountId },
 			attributes: ['balance'],
 		});
 

@@ -10,7 +10,7 @@ const PaymentHistory = db.define(
 			autoIncrement: true,
 		},
 		transactionCode: {
-			type: DataTypes.UUID,
+			type: DataTypes.STRING(12),
 			allowNull: false,
 		},
 		beforeBalance: {
@@ -47,12 +47,17 @@ const PaymentHistory = db.define(
 			allowNull: true,
 		},
 		cardNumber: {
-			type: DataTypes.STRING(19),
+			type: DataTypes.STRING(4),
 			allowNull: true,
 		},
 		cardName: {
 			type: DataTypes.STRING(50),
 			allowNull: true,
+		},
+		isPutMoney: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: false,
 		},
 	},
 	{ tableName: 'PaymentHistory', timestamps: false, initialAutoIncrement: 1 }

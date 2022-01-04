@@ -26,6 +26,7 @@ passport.use(
 				failedLoginTime,
 				isLocked,
 				userId,
+				accountId,
 			} = account;
 
 			// The account has been locked
@@ -45,7 +46,7 @@ passport.use(
 			const isCorrectPwd = await bcrypt.compare(password, accountPwd);
 
 			if (isCorrectPwd) {
-				return done(null, { username, userId });
+				return done(null, { username, userId, accountId });
 			}
 
 			// if the password is incorrect

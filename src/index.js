@@ -16,6 +16,7 @@ const { unlessRoute, authMiddleware } = require('./middleware/auth.middleware');
 const apiRoute = require('./routes/api.route');
 const authRoute = require('./routes/auth.route');
 const dashboardRoute = require('./routes/dashboard.route');
+const paymentHistoryRoute = require('./routes/payment-history.route');
 
 /* ============== Config =============== */
 app.use(express.static(path.join(__dirname, 'public')));
@@ -48,6 +49,7 @@ app.use(unlessRoute(['/auth'], authMiddleware));
 app.use('/api', apiAuthentication, apiRoute);
 app.use('/auth', authRoute);
 app.use('/dashboard', dashboardRoute);
+app.use('/payment-history', paymentHistoryRoute);
 app.use('/', (req, res) => res.redirect('/dashboard'));
 
 app.use((req, res) => res.render('404.pug'));

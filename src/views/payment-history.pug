@@ -1,0 +1,51 @@
+extends ./templates/general.template.pug
+include ./mixins/footer.mixin.pug
+
+block title 
+  title PayCP | Lịch sử thanh toán
+
+block append style
+  style.
+    tr th {
+      color: var(--primary)
+    }
+    .no-transaction {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background-color: #fff;
+      color: var(--text-color);
+      font-size: 1.25rem;
+    }
+    td {
+      font-size: 0.9rem;
+    }
+
+block content
+  .container.mt-4.mb-2
+    if paymentHistories && paymentHistories.length > 0
+      table.table.table-striped.table-bordered.bg-white(style="box-shadow:var(--box-shadow)")
+        thead
+          tr
+            th(scope="col") Mã giao dịch
+            th(scope="col") Thời gian
+            th(scope="col") Nội dung
+            th(scope="col") Tổng tiền 
+            th(scope="col") Số dư
+            th(scope="col") Thông tin thẻ
+        tbody
+          each p in paymentHistories
+            - const { transactionCode, createdDate, content, totalMoney, afterBalance, cardName, cardNumber, isPutMoney } = p;
+            tr
+              td= transactionCode
+              td= helpers.formatDate(createdDate)
+              td= content ? content : 'Không đề cập'
+              td= `${isPutMoney ? '+' : '-'}${helpers.formatCurrency(totalMoney)}`
+              td= helpers.formatCurrency(afterBalance)
+              td= isPutMoney ? `${cardName} ...${cardNumber}` : '_'
+    else 
+      p.px-3.py-4.text-center.no-transaction Bạn chưa thực hiện bất kỳ giao dịch nào !
+
+block footer 
+  +footer(false)
+
+block append script

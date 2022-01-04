@@ -1,4 +1,4 @@
-mixin footer
-  .container-fluid.text-center.py-3(style="border-top:solid 1px #ccc;position:fixed;bottom:0;left:0;color:var(--gray);font-size:0.85rem")
+mixin footer(isFixed=true)
+  .container-fluid.text-center.py-3.bg-white(style=`border-top:solid 1px #ccc;bottom:0;left:0;color:var(--gray);font-size:0.85rem;${isFixed ? 'position:fixed' : ''}`)
     p.mb-2 ©2021-2022 CP Payment System, Inc. All rights reserved
     p.mb-0 18120634 - 18120609 - 18120606 - 18120144

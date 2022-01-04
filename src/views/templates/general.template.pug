@@ -19,13 +19,22 @@ html(lang="en")
 
       //- My global css
       link(rel="stylesheet", href="/css/common.css")
+      link(rel="stylesheet", href="/css/header.css")
 
     block bootstrapIcon
       //- bootstrap icon - cdn
       link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css")
 
   body
+    block header
+      include ../mixins/header.mixin.pug
+      +header
+
     block content
+
+    block footer
+      include ../mixins/footer.mixin.pug
+      +footer
 
     block script
       script(src="/vendors/jquery.min.js")
