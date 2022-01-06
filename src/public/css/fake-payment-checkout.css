@@ -49,3 +49,7 @@ label {
 .form-control {
 	box-shadow: none !important;
 }
+
+.empty-error {
+	border: solid 2px var(--danger);
+}

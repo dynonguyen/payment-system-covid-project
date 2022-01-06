@@ -1,0 +1,21 @@
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+tr th {
+	color: var(--primary);
+}
+
+.no-transaction {
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	background-color: #fff;
+	color: var(--text-color);
+	font-size: 1.25rem;
+}
+
+td {
+	font-size: 0.9rem;
+}

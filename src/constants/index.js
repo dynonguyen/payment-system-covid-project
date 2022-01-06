@@ -1,5 +1,6 @@
 module.exports = {
 	API_AUTH_HEADER: 'covid-token',
+	JWT_CHECKOUT_SUCCESS_KEY: 'JWT_CHECKOUT_SUCCESS',
 	MAX: {
 		SESSION_EXP: 300 * 60 * 1000, // 30 mins
 		FAILED_LOGIN_TIME: 5,

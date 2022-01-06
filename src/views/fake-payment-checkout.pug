@@ -25,27 +25,27 @@ block content
             th(scope="col") Nội dung
         tbody
           tr.bg-light 
-            td 78919124
-            td 100.000đ
-            td Miễn phí
-            td Nạp tiền vào tài khoản
+            td= transactionCode
+            td= totalMoney
+            td= transactionFee
+            td= transactionContent
 
       .box-container
         h1.title.text-center.mb-3 Thanh toán Online bằng thẻ ATM/ Internet Banking
 
         .flex-center.mb-4
-          img.bank-logo.mr-3(src="https://res.cloudinary.com/dsxlwpobo/image/upload/v1641280941/covid-project/paycp/banks/Agribank.png", alt="Photo")
-          span.bank-name Eximbank - Xuất nhập khẩu
+          img.bank-logo.mr-3(src=bankLogo, alt="Photo")
+          span.bank-name.text-center= bankName
 
-        form(action="/", method="POST")
+        form#paymentForm(action="/xyz-fake-payment-system/checkout", method="POST")
           .form-group.row
             label.col-sm-4.col-form-label(for="cardNumber") Số thẻ ATM #[span.required (*)]
             .col-sm-8
-              input.form-control#cardNumber(type="text", name="cardNumber", required)
+              input.form-control#cardNumber(type="text", name="cardNumber", autofocus, required, minLength="8", maxLength="19")
           .form-group.row
             label.col-sm-4.col-form-label(for="cardAuthor") Tên chủ thẻ #[span.required (*)]
             .col-sm-8
-              input.form-control#cardAuthor(type="text", required, style="text-transform:uppercase")
+              input.form-control#cardAuthor(type="text", required, style="text-transform:uppercase", maxLength="50")
           .form-group.row
             label.col-sm-4.col-form-label(for="month") Ngày hết hạn #[span.required (*)]
             .col-sm-4.mb-3.mb-sm-0
@@ -70,8 +70,14 @@ block content
           .row
             .col-sm-4 
             .col-sm-5.mb-3.mb-sm-0
-              button.btn.btn-info.w-100(type="submit") Thanh toán
+              button.btn.btn-info.w-100#paymentSubmitBtn(type="submit") Thanh toán
             .col-sm-3
-              button.btn.btn-secondary.w-100 Huỷ bỏ
+              button.btn.btn-secondary.w-100#cancelPaymentBtn(type="button") Huỷ bỏ
+          .d-none 
+            input(type="text", name="transactionCode", value=transactionCode)
+            input(type="text", name="token", value=token)
 
 block footer
+
+block append script 
+  script(src="/js/fake-payment-checkout.js") 

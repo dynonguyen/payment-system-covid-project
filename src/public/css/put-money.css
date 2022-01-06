@@ -19,13 +19,13 @@
 .bank-list {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
-	grid-gap: 2rem;
-	margin: 1.75rem 0 1.25rem;
+	grid-gap: 1.75rem;
+	margin: 1.65rem 0 1.25rem;
 	padding: 12px;
 }
 
 .empty-error {
-	border: solid 1px var(--danger);
+	border: solid 2px var(--danger);
 }
 
 .bank-item {

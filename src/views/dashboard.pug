@@ -11,9 +11,12 @@ block append style
 block bootstrapIcon
 
 block content
+  if msg 
+    .toast-msg.show(class=isPutMoneySuccess?'success':'danger')= msg
+      .close-icon x
   .box
     h2.box-title Số dư hiện tại
-    .mt-3.mb-4.d-flex.flex-column
+    .mt-3.mb-4.pl-2.d-flex.flex-column
       span.balance=helpers.formatCurrency(balance || 0)
       span.available Khả dụng
 

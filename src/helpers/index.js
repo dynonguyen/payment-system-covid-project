@@ -25,13 +25,13 @@ exports.formatCurrency = (money = 0) => {
 exports.formatDateToStr = (date) => {
 	const d = new Date(date);
 
-	const s = `0${d.getSeconds()}`;
-	const m = `0${d.getMinutes()}`;
-	const h = `0${d.getHours()}`;
+	const s = `0${d.getSeconds()}`.slice(-2);
+	const m = `0${d.getMinutes()}`.slice(-2);
+	const h = `0${d.getHours()}`.slice(-2);
 
 	const y = d.getFullYear();
 	const mm = `0${d.getMonth() + 1}`.slice(-2);
 	const dd = `0${d.getDate()}`.slice(-2);
 
-	return `${s}:${m}:${h} ${dd}-${mm}-${y}`;
+	return `${h}:${m}:${s} ${dd}-${mm}-${y}`;
 };

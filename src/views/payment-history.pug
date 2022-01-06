@@ -5,25 +5,12 @@ block title
   title PayCP | Lịch sử thanh toán
 
 block append style
-  style.
-    tr th {
-      color: var(--primary)
-    }
-    .no-transaction {
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      background-color: #fff;
-      color: var(--text-color);
-      font-size: 1.25rem;
-    }
-    td {
-      font-size: 0.9rem;
-    }
+  link(rel="stylesheet", href="/css/payment-history.css")
 
 block bootstrapIcon
 
 block content
-  .container.mt-4.mb-2
+  .container.mt-4.mb-2.flex-grow-1
     if paymentHistories && paymentHistories.length > 0
       table.table.table-striped.table-bordered.bg-white(style="box-shadow:var(--box-shadow)")
         thead

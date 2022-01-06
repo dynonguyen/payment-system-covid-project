@@ -6,4 +6,9 @@ fakePaymentSystemRoute.get(
 	fakePaymentSystemController.getPaymentCheckout
 );
 
+fakePaymentSystemRoute.post(
+	'/checkout',
+	fakePaymentSystemController.postPaymentCheckout
+);
+
 module.exports = fakePaymentSystemRoute;

@@ -14,6 +14,7 @@ $(document).ready(function () {
 		if (money > MAX_MONEY) {
 			return $(this).val(MAX_MONEY);
 		}
+		$(this).removeClass('empty-error');
 	});
 
 	$('#paymentBtn').click(async function () {
@@ -45,6 +46,9 @@ $(document).ready(function () {
 		});
 
 		const { url = '/' } = (await response.json()) || {};
-		location.href = url;
+
+		setTimeout(() => {
+			location.href = url;
+		}, 1000);
 	});
 });
