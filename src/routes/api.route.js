@@ -1,6 +1,9 @@
-const authApi = require('express').Router();
+const api = require('express').Router();
 const apiController = require('../controllers/api.controller');
 
-authApi.post('/create-account', apiController.postCreateAccount);
+api.get('/debt-info/:userId', apiController.getDebtInfo);
+api.get('/payment-limit', apiController.getPaymentLimit);
 
-module.exports = authApi;
+api.post('/create-account', apiController.postCreateAccount);
+
+module.exports = api;

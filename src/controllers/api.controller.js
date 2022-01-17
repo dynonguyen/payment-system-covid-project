@@ -1,5 +1,41 @@
 const Account = require('../models/account.model');
 const { Op } = require('../configs/db.config');
+const DebtHistory = require('../models/debt-history');
+const PaymentLimit = require('../models/payment-limit.model');
+
+exports.getDebtInfo = async (req, res) => {
+	const userId = Number(req.params.userId);
+	if (!userId || isNaN(userId)) {
+		return res
+			.status(400)
+			.json({ debtInfo: null, msg: 'userId is required !' });
+	}
+
+	try {
+		const debtInfo = await DebtHistory.findOne({
+			raw: true,
+			where: { userId },
+			attributes: { exclude: ['accountId', 'userId', 'debtHistoryId'] },
+		});
+		return res.status(200).json({ debtInfo, msg: 'successfully' });
+	} catch (error) {
+		console.error('Function getDebtInfo Error: ', error);
+		return res.status(500).json({ debtInfo: null, msg: error });
+	}
+};
+
+exports.getPaymentLimit = async (req, res) => {
+	try {
+		const paymentLimit = await PaymentLimit.findOne({
+			raw: true,
+			attributes: { exclude: ['paymentLimitId'] },
+		});
+		return res.status(200).json({ paymentLimit });
+	} catch (error) {
+		console.error('Function getPaymentLimit Error: ', error);
+		return res.status(500).json({ paymentLimit: null });
+	}
+};
 
 exports.postCreateAccount = async (req, res) => {
 	const { username, userId } = req.body;
