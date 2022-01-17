@@ -17,11 +17,4 @@ const MainAccount = db.define(
 	{ tableName: 'MainAccount', timestamps: false, initialAutoIncrement: 1 }
 );
 
-(async function () {
-	const isExistAccount = await MainAccount.count({});
-	if (!isExistAccount) {
-		await MainAccount.create({});
-	}
-})();
-
 module.exports = MainAccount;

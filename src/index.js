@@ -10,6 +10,8 @@ const { MAX } = require('./constants');
 const session = require('express-session');
 const passport = require('passport');
 
+const MainAccount = require('./models/main-account.model');
+
 /* ============== Import apis, middleware =============== */
 const { apiAuthentication } = require('./middleware/authentication.middleware');
 const { unlessRoute, authMiddleware } = require('./middleware/auth.middleware');
@@ -47,7 +49,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(morgan('tiny'));
 
 /* ============== Apis =============== */
-app.use(unlessRoute(['/auth'], authMiddleware));
+app.use(unlessRoute(['/auth', '/api'], authMiddleware));
 
 app.use('/api', apiAuthentication, apiRoute);
 app.use('/auth', authRoute);
@@ -66,6 +68,12 @@ const PORT = normalizePort(process.env.PORT || 3001);
 
 db.sync({ after: true }).then((_) => {
 	app.listen(PORT, () => {
+		(async function () {
+			const isExistAccount = await MainAccount.count({});
+			if (!isExistAccount) {
+				await MainAccount.create({});
+			}
+		})();
 		console.log(`Server is listening on port ${PORT}`);
 	});
 });
