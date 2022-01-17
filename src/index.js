@@ -52,7 +52,6 @@ app.use(morgan('tiny'));
 // Config https for development environment
 let server = app;
 if (process.env.NODE_ENV?.trim() === 'development') {
-	console.log('RUN');
 	const key = fs.readFileSync(__dirname + '/key/key.pem');
 	const cert = fs.readFileSync(__dirname + '/key/cert.pem');
 	const options = {
