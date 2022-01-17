@@ -7,8 +7,8 @@
 	"author": "18120144-18120606-18120609-18120634",
 	"license": "MIT",
 	"scripts": {
-		"start": "node ./src/index.js",
-		"dev": "nodemon ./src/index.js"
+		"start": "set NODE_ENV=production&&node ./src/index.js",
+		"dev": "set NODE_ENV=development&&nodemon ./src/index.js"
 	},
 	"dependencies": {
 		"bcryptjs": "^2.4.3",

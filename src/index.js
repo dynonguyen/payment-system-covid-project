@@ -9,7 +9,8 @@ const path = require('path');
 const { MAX } = require('./constants');
 const session = require('express-session');
 const passport = require('passport');
-
+const fs = require('fs');
+const https = require('https');
 const MainAccount = require('./models/main-account.model');
 
 /* ============== Import apis, middleware =============== */
@@ -48,6 +49,19 @@ app.set('views', path.join(__dirname, 'views'));
 // set logging
 app.use(morgan('tiny'));
 
+// Config https for development environment
+let server = app;
+if (process.env.NODE_ENV?.trim() === 'development') {
+	console.log('RUN');
+	const key = fs.readFileSync(__dirname + '/key/key.pem');
+	const cert = fs.readFileSync(__dirname + '/key/cert.pem');
+	const options = {
+		key: key,
+		cert: cert,
+	};
+	server = https.createServer(options, app);
+}
+
 /* ============== Apis =============== */
 app.use(unlessRoute(['/auth', '/api'], authMiddleware));
 
@@ -67,7 +81,8 @@ const normalizePort = (port) => parseInt(port, 10);
 const PORT = normalizePort(process.env.PORT || 3001);
 
 db.sync({ after: true }).then((_) => {
-	app.listen(PORT, () => {
+	server.listen(PORT, () => {
+		// Create a main account if not exist
 		(async function () {
 			const isExistAccount = await MainAccount.count({});
 			if (!isExistAccount) {
