@@ -37,6 +37,23 @@ exports.getPaymentLimit = async (req, res) => {
 	}
 };
 
+exports.getUserBalance = async (req, res) => {
+	const userId = Number(req.params.userId);
+
+	try {
+		const account = await Account.findOne({
+			raw: true,
+			where: { userId },
+			attributes: ['balance'],
+		});
+
+		return res.status(200).json({ balance: account?.balance || 0 });
+	} catch (error) {
+		console.error('Function getUserBalance Error: ', error);
+		return res.status(500).json({ balance: 0 });
+	}
+};
+
 exports.postCreateAccount = async (req, res) => {
 	const { username, userId } = req.body;
 
