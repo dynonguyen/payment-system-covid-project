@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { MAX, JWT_CHECKOUT_SUCCESS_KEY } = require('../constants');
 const PaymentHistory = require('../models/payment-history.model');
 const Account = require('../models/account.model');
+const MainAccount = require('../models/main-account.model');
 
 exports.getPutMoneyPage = (req, res) => {
 	return res.render('put-money.pug', {
@@ -37,6 +38,7 @@ exports.getCheckoutSuccess = async (req, res) => {
 		});
 
 		await Account.increment({ balance: totalMoney }, { where: { accountId } });
+		await MainAccount.increment({ balance: totalMoney }, { where: { id: 1 } });
 
 		req.session.putMoneyStatus = '1';
 		return res.redirect('/dashboard');
