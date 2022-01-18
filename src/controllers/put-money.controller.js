@@ -49,8 +49,8 @@ exports.getCheckoutSuccess = async (req, res) => {
 			cardName: bank,
 			content: 'Nạp tiền',
 			isPutMoney: true,
-			beforeBalance: account.balance,
-			afterBalance: account.balance + totalMoney,
+			beforeBalance: Number(account.balance),
+			afterBalance: Number(account.balance) + Number(totalMoney),
 			createdDate: new Date(),
 		});
 

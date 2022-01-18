@@ -10,6 +10,7 @@ exports.getPaymentHistory = async (req, res) => {
 			attributes: {
 				exclude: ['paymentId', 'accountId', 'beforeBalance'],
 			},
+			order: [['createdDate', 'DESC']],
 		});
 
 		return res.render('payment-history.pug', {
