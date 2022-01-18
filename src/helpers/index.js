@@ -1,4 +1,6 @@
 const bcrypt = require('bcryptjs');
+const DebtHistory = require('../models/debt-history');
+const PaymentLimit = require('../models/payment-limit.model');
 
 // Hash password with bcrypt
 exports.hashPassword = (password = '') => {
@@ -34,4 +36,38 @@ exports.formatDateToStr = (date) => {
 	const dd = `0${d.getDate()}`.slice(-2);
 
 	return `${h}:${m}:${s} ${dd}-${mm}-${y}`;
+};
+
+exports.getUserDebt = async (accountId) => {
+	try {
+		const userDebt = await DebtHistory.findOne({
+			raw: true,
+			where: { accountId: Number(accountId) },
+		});
+
+		if (!userDebt) {
+			return null;
+		}
+
+		const { debt, returned, status, createdDate } = userDebt;
+
+		return {
+			debt,
+			returned,
+			remainingDebt: debt - returned,
+			status,
+			createdDate,
+		};
+	} catch (error) {
+		console.error('Function getUserDebt Error: ', error);
+		return null;
+	}
+};
+
+exports.getPaymentLimit = async () => {
+	try {
+		return PaymentLimit.findOne({ raw: true });
+	} catch (error) {
+		return {};
+	}
 };

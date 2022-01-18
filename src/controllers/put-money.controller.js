@@ -12,6 +12,7 @@ const PaymentHistory = require('../models/payment-history.model');
 const Account = require('../models/account.model');
 const MainAccount = require('../models/main-account.model');
 const axios = require('axios').default;
+const { getUserDebt, getPaymentLimit, formatCurrency } = require('../helpers');
 
 exports.getPutMoneyPage = (req, res) => {
 	const token = req.query[TRACKING_QUERY_KEY];
@@ -98,10 +99,30 @@ exports.getCheckoutSuccess = async (req, res) => {
 	}
 };
 
-exports.postCheckoutPutMoney = (req, res) => {
+exports.postCheckoutPutMoney = async (req, res) => {
 	const { totalMoney, bank, token } = req.body;
 	const { accountId } = req.user;
 	const rootUrl = `${req.protocol}://${req.get('host')}`;
+
+	// Check debt
+	const userDebt = await getUserDebt(accountId);
+	if (userDebt) {
+		const { remainingDebt, status } = userDebt;
+		if (!status && remainingDebt) {
+			const { minimumLimit } = await getPaymentLimit();
+			const minimumPayment = ~~((minimumLimit * remainingDebt) / 100);
+			if (!isNaN(minimumPayment) && Number(totalMoney) < minimumPayment) {
+				return res.status(400).json({
+					url: '',
+					msg: `Bạn có khoản dư nợ cần thanh toán là ${formatCurrency(
+						remainingDebt
+					)}, hạn mức thanh toán tối thiểu là ${minimumLimit}%. Vui lòng nạp số tiền lớn hơn mức ${formatCurrency(
+						minimumPayment
+					)} để tiếp tục. Cảm ơn`,
+				});
+			}
+		}
+	}
 
 	const fakePaymentToken = jwt.sign(
 		{

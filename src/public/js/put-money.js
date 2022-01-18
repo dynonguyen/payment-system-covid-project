@@ -38,6 +38,7 @@ $(document).ready(function () {
 		}
 
 		$(this).addClass('disabled');
+
 		const response = await fetch('/put-money/checkout', {
 			method: 'POST',
 			headers: {
@@ -50,10 +51,15 @@ $(document).ready(function () {
 			}),
 		});
 
-		const { url = '/' } = (await response.json()) || {};
+		const { url = '/', msg } = (await response.json()) || {};
 
-		setTimeout(() => {
-			location.href = url;
-		}, 1000);
+		if (response.status === 200) {
+			setTimeout(() => {
+				location.href = url;
+			}, 750);
+		} else {
+			showToastMsg($('#toastMsg'), msg, 'danger', 15_000);
+			return $(this).removeClass('disabled');
+		}
 	});
 });
