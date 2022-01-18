@@ -5,10 +5,13 @@ const {
 	JWT_CHECKOUT_SUCCESS_KEY,
 	TRACKING_QUERY_KEY,
 	PRIVATE_KEY,
+	API_AUTH_HEADER,
+	PAYMENT_TYPES,
 } = require('../constants');
 const PaymentHistory = require('../models/payment-history.model');
 const Account = require('../models/account.model');
 const MainAccount = require('../models/main-account.model');
+const axios = require('axios').default;
 
 exports.getPutMoneyPage = (req, res) => {
 	const token = req.query[TRACKING_QUERY_KEY];
@@ -51,11 +54,35 @@ exports.getCheckoutSuccess = async (req, res) => {
 			createdDate: new Date(),
 		});
 
-		await Account.increment({ balance: totalMoney }, { where: { accountId } });
-		await MainAccount.increment({ balance: totalMoney }, { where: { id: 1 } });
+		const promises = [];
 
-		// Them lich su thanh toan vao he thong A bang call API
-		// ...
+		promises.push(
+			Account.increment({ balance: totalMoney }, { where: { accountId } })
+		);
+		promises.push(
+			MainAccount.increment({ balance: totalMoney }, { where: { id: 1 } })
+		);
+		promises.push(
+			axios.post(
+				`${process.env.MANAGEMENT_SYSTEM_URL}/api/new-payment-history`,
+				{
+					paymentDate: new Date(),
+					currentBalance: Number(account.balance) + Number(totalMoney),
+					paymentType: PAYMENT_TYPES.SEND_MONEY,
+					totalMoney,
+					userId: account.userId,
+					consumptionHistoryId: null,
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						[API_AUTH_HEADER]: PRIVATE_KEY,
+					},
+				}
+			)
+		);
+
+		await Promise.all(promises);
 
 		if (AToken) {
 			const { callbackUrl } = jwt.decode(AToken, PRIVATE_KEY).sub;

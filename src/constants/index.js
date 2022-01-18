@@ -8,4 +8,8 @@ module.exports = {
 	},
 	TRACKING_QUERY_KEY: 'fid',
 	PRIVATE_KEY: process.env.PRIVATE_KEY,
+	PAYMENT_TYPES: {
+		CONSUME: 0,
+		SEND_MONEY: 1,
+	},
 };

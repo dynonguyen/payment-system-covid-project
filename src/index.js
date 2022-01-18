@@ -58,6 +58,7 @@ if (process.env.NODE_ENV?.trim() === 'development') {
 		key: key,
 		cert: cert,
 	};
+	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 	server = https.createServer(options, app);
 }
 
