@@ -3,6 +3,10 @@ const MAX_MONEY = 100_000_000;
 const ERROR_CLASS = 'empty-error';
 
 $(document).ready(function () {
+	if (token) {
+		$('.navbar-wrap').remove();
+	}
+
 	const totalMoneyInput = $('#totalMoney');
 
 	totalMoneyInput.change(function () {
@@ -42,6 +46,7 @@ $(document).ready(function () {
 			body: JSON.stringify({
 				bank,
 				totalMoney,
+				token,
 			}),
 		});
 

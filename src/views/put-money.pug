@@ -31,4 +31,6 @@ block content
       .text-center.mt-3
         button.btn.btn-primary.payment-btn#paymentBtn Tiến hành thanh toán&nbsp;&nbsp;#[i.bi.bi-credit-card-fill]
 block append script
+  script.
+    const token = "#{token}";
   script(src="/js/put-money.js") 

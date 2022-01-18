@@ -1,13 +1,17 @@
 const Account = require('../models/account.model');
 const { hashPassword } = require('../helpers');
 const passport = require('passport');
+const { TRACKING_QUERY_KEY } = require('../constants');
 require('../middleware/passport.middleware');
 
 exports.getLogin = (req, res) => {
-	if (req.isAuthenticated()) {
+	const token = req.query[TRACKING_QUERY_KEY];
+
+	if (!token && req.isAuthenticated()) {
 		return res.redirect('/');
 	}
-	return res.render('login.pug');
+
+	return res.render('login.pug', { token, trackingKey: TRACKING_QUERY_KEY });
 };
 
 exports.getLogout = (req, res) => {
@@ -17,9 +21,13 @@ exports.getLogout = (req, res) => {
 
 exports.postLogin = async (req, res, next) => {
 	passport.authenticate('local', function (error, user, info) {
+		const token = req.body[TRACKING_QUERY_KEY];
+
 		if (error) {
 			return res.render('login.pug', {
 				msg: 'Đăng nhập thất bại, thử lại !',
+				token,
+				trackingKey: TRACKING_QUERY_KEY,
 			});
 		}
 
@@ -34,12 +42,17 @@ exports.postLogin = async (req, res, next) => {
 			return res.render('login.pug', {
 				msg,
 				username,
+				token,
+				trackingKey: TRACKING_QUERY_KEY,
 			});
 		}
 
 		req.login(user, function (err) {
 			if (err) {
 				return res.render('404.pug');
+			}
+			if (token) {
+				return res.redirect(`/put-money?${TRACKING_QUERY_KEY}=${token}`);
 			}
 			return res.redirect('/');
 		});

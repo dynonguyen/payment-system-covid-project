@@ -38,8 +38,14 @@ exports.postPaymentCheckout = async (req, res) => {
 		}
 
 		const tokenData = jwt.verify(token, process.env.JWT_CHECKOUT_SECRET);
-		const { totalMoney, bank, accountId, callback, successTokenKey } =
-			tokenData.sub;
+		const {
+			totalMoney,
+			bank,
+			accountId,
+			callback,
+			successTokenKey,
+			token: AToken,
+		} = tokenData.sub;
 
 		// payment processing .......
 
@@ -52,8 +58,9 @@ exports.postPaymentCheckout = async (req, res) => {
 					totalMoney,
 					bank,
 					cardNumber: cardNumber.slice(-4),
+					token: AToken,
 				},
-				exp: Date.now() + 300_000, // 3 mins
+				exp: Date.now() + 3000_000, // 30 mins
 			},
 			successTokenKey
 		);

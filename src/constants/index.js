@@ -6,4 +6,6 @@ module.exports = {
 		FAILED_LOGIN_TIME: 5,
 		CHECKOUT_JWT_EXP: 20 * 60 * 1000, //20 mins
 	},
+	TRACKING_QUERY_KEY: 'fid',
+	PRIVATE_KEY: process.env.PRIVATE_KEY,
 };

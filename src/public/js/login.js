@@ -14,6 +14,10 @@ $(document).ready(function () {
 		}
 
 		submitBtn.addClass('disabled');
+		if (token) {
+			const action = `/auth/login${token ? `?${trackingKey}=${token}` : ''}`;
+			$(this).attr('action', action);
+		}
 
 		this.submit();
 	});
