@@ -36,6 +36,8 @@ exports.postLogin = async (req, res, next) => {
 			if (isCreatePwd) {
 				return res.render('create-password.pug', {
 					username,
+					token,
+					trackingKey: TRACKING_QUERY_KEY,
 				});
 			}
 
@@ -61,15 +63,22 @@ exports.postLogin = async (req, res, next) => {
 
 exports.postCreatePassword = async (req, res) => {
 	const { username } = req.params;
-	const { password } = req.body;
+	const { password, token } = req.body;
+
 	try {
 		if (username && password) {
 			const hashPw = await hashPassword(password);
 			await Account.update({ password: hashPw }, { where: { username } });
+			if (token) {
+				return res.redirect(`/auth/login?${TRACKING_QUERY_KEY}=${token}`);
+			}
 			return res.redirect('/auth/login');
 		}
 	} catch (error) {
 		console.error('Function postCreatePassword Error: ', error);
-		return res.render('/auth/login');
+		if (token) {
+			return res.redirect(`/auth/login?${TRACKING_QUERY_KEY}=${token}`);
+		}
+		return res.redirect('/auth/login');
 	}
 };
