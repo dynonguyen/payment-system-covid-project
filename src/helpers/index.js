@@ -49,14 +49,14 @@ exports.getUserDebt = async (accountId) => {
 			return null;
 		}
 
-		const { debt, returned, status, createdDate } = userDebt;
+		const { debt, returned, status, createdTime } = userDebt;
 
 		return {
 			debt,
 			returned,
 			remainingDebt: debt - returned,
 			status,
-			createdDate,
+			createdTime,
 		};
 	} catch (error) {
 		console.error('Function getUserDebt Error: ', error);
