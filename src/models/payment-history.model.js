@@ -60,7 +60,7 @@ const PaymentHistory = db.define(
 			defaultValue: false,
 		},
 	},
-	{ tableName: 'PaymentHistory', timestamps: false, initialAutoIncrement: 1 }
+	{ tableName: 'PaymentHistory', timestamps: false, initialAutoIncrement: 1000 }
 );
 
 Account.hasMany(PaymentHistory, {

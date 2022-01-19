@@ -14,7 +14,7 @@ const MainAccount = db.define(
 			defaultValue: 0,
 		},
 	},
-	{ tableName: 'MainAccount', timestamps: false, initialAutoIncrement: 1 }
+	{ tableName: 'MainAccount', timestamps: false, initialAutoIncrement: 1000 }
 );
 
 module.exports = MainAccount;

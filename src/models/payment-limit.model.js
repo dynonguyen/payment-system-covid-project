@@ -20,7 +20,7 @@ const PaymentLimit = db.define(
 			defaultValue: 1_000_000,
 		},
 	},
-	{ tableName: 'PaymentLimit', timestamps: false, initialAutoIncrement: 1 }
+	{ tableName: 'PaymentLimit', timestamps: false, initialAutoIncrement: 1000 }
 );
 
 module.exports = PaymentLimit;

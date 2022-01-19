@@ -37,7 +37,7 @@ const DebtHistory = db.define(
 			defaultValue: new Date(),
 		},
 	},
-	{ tableName: 'DebtHistory', timestamps: false, initialAutoIncrement: 1 }
+	{ tableName: 'DebtHistory', timestamps: false, initialAutoIncrement: 1000 }
 );
 
 Account.hasOne(DebtHistory, {

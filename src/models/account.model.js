@@ -41,7 +41,7 @@ const Account = db.define(
 			},
 		},
 	},
-	{ tableName: 'Account', timestamps: false, initialAutoIncrement: 1 }
+	{ tableName: 'Account', timestamps: false, initialAutoIncrement: 1000 }
 );
 
 module.exports = Account;
