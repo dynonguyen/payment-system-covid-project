@@ -54,6 +54,16 @@ exports.getUserBalance = async (req, res) => {
 	}
 };
 
+exports.getUserDebtList = async (req, res) => {
+	try {
+		const debtList = await DebtHistory.findAll({ raw: true });
+		return res.status(200).json({ debtList });
+	} catch (error) {
+		console.error('Function getUserDebtList Error: ', error);
+		return res.status(500).json({});
+	}
+};
+
 exports.postCreateAccount = async (req, res) => {
 	const { username, userId } = req.body;
 
