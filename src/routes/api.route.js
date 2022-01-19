@@ -8,6 +8,7 @@ api.get('/debt-list', apiController.getUserDebtList);
 
 api.post('/create-account', apiController.postCreateAccount);
 api.post('/payment', apiController.postPayment);
+api.post('/debt', apiController.postDebt);
 
 api.put('/minium-limit', apiController.putUpdatePaymentLimit);
 

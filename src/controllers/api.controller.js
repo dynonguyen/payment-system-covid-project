@@ -159,3 +159,38 @@ exports.postPayment = async (req, res) => {
 		return res.status(400).json({});
 	}
 };
+
+exports.postDebt = async (req, res) => {
+	let { userId, debt } = req.body;
+	[userId, debt] = [userId, debt].map(Number);
+
+	try {
+		const debtInfo = await DebtHistory.findOne({
+			raw: true,
+			where: { userId },
+		});
+
+		if (debtInfo) {
+			await DebtHistory.update(
+				{ debt: debtInfo.debt + debt, updatedDate: new Date() },
+				{ where: { userId } }
+			);
+		} else {
+			const account = await Account.findOne({ raw: true, where: { userId } });
+			await DebtHistory.create({
+				userId,
+				debt,
+				returned: 0,
+				status: 0,
+				createdDate: new Date(),
+				updatedDate: new Date(),
+				accountId: account.accountId,
+			});
+		}
+
+		return res.status(200).json({});
+	} catch (error) {
+		console.error('Function postDebt Error: ', error);
+		return res.status(500).json({});
+	}
+};
