@@ -7,6 +7,7 @@ api.get('/balance/:userId', apiController.getUserBalance);
 api.get('/debt-list', apiController.getUserDebtList);
 
 api.post('/create-account', apiController.postCreateAccount);
+api.post('/payment', apiController.postPayment);
 
 api.put('/minium-limit', apiController.putUpdatePaymentLimit);
 

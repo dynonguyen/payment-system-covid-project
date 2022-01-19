@@ -1,7 +1,8 @@
 const Account = require('../models/account.model');
-const { Op } = require('../configs/db.config');
+const { Op, db } = require('../configs/db.config');
 const DebtHistory = require('../models/debt-history');
 const PaymentLimit = require('../models/payment-limit.model');
+const PaymentHistory = require('../models/payment-history.model');
 
 exports.getDebtInfo = async (req, res) => {
 	const userId = Number(req.params.userId);
@@ -113,6 +114,48 @@ exports.putUpdatePaymentLimit = async (req, res) => {
 		return res.status(200).json({});
 	} catch (error) {
 		console.error('Function putUpdatePaymentLimit Error: ', error);
+		return res.status(400).json({});
+	}
+};
+
+exports.postPayment = async (req, res) => {
+	let { totalMoney, userId } = req.body;
+	[totalMoney, userId] = [Number(totalMoney), Number(userId)];
+	const tx = await db.transaction();
+
+	try {
+		const { balance, accountId } = await Account.findOne({
+			raw: true,
+			where: { userId },
+			attributes: ['balance', 'accountId'],
+		});
+
+		const afterBalance = balance - totalMoney > 0 ? balance - totalMoney : 0;
+		await PaymentHistory.create(
+			{
+				transactionCode: Date.now().toString(),
+				beforeBalance: balance,
+				afterBalance,
+				totalMoney,
+				createdDate: new Date(),
+				content: 'Mua gói nhu yếu phẩm',
+				cardNumber: null,
+				cardName: null,
+				isPutMoney: false,
+				accountId,
+			},
+			{ transaction: tx }
+		);
+		await Account.update(
+			{ balance: afterBalance },
+			{ where: { accountId }, transaction: tx }
+		);
+
+		await tx.commit();
+		return res.status(200).json({ currentBalance: afterBalance });
+	} catch (error) {
+		await tx.rollback();
+		console.error('Function postPayment Error: ', error);
 		return res.status(400).json({});
 	}
 };
