@@ -88,3 +88,21 @@ exports.postCreateAccount = async (req, res) => {
 		return res.status(400).json({ msg: error });
 	}
 };
+
+exports.putUpdatePaymentLimit = async (req, res) => {
+	const newMiniumLimit = Number(req.body.minimumLimit);
+	if (isNaN(newMiniumLimit) || newMiniumLimit < 1 || newMiniumLimit > 25) {
+		return res.status(400).json({});
+	}
+
+	try {
+		await PaymentLimit.update(
+			{ minimumLimit: newMiniumLimit },
+			{ where: { paymentLimitId: 1 } }
+		);
+		return res.status(200).json({});
+	} catch (error) {
+		console.error('Function putUpdatePaymentLimit Error: ', error);
+		return res.status(400).json({});
+	}
+};

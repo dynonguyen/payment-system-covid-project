@@ -7,4 +7,6 @@ api.get('/balance/:userId', apiController.getUserBalance);
 
 api.post('/create-account', apiController.postCreateAccount);
 
+api.put('/minium-limit', apiController.putUpdatePaymentLimit);
+
 module.exports = api;
