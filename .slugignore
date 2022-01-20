@@ -1,0 +1,5 @@
+.local.env
+/database
+.prettierignore
+.prettierrc
+README.md

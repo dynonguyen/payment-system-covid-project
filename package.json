@@ -1,14 +1,14 @@
 {
 	"name": "payment-system-covid-project",
 	"version": "1.0.0",
-	"description": "Hệ thống thnah toán cho dự án quản lý Covid-19",
+	"description": "Hệ thống thanh toán cho dự án quản lý Covid-19",
 	"main": "index.js",
 	"repository": "https://github.com/TuanNguyen2504/payment-system-covid-project",
 	"author": "18120144-18120606-18120609-18120634",
 	"license": "MIT",
 	"scripts": {
-		"start": "set NODE_ENV=production&&node ./src/index.js",
-		"dev": "set NODE_ENV=development&&nodemon ./src/index.js"
+		"start": "set NODE_ENV=production&&node index.js",
+		"dev": "set NODE_ENV=development&&nodemon index.js"
 	},
 	"dependencies": {
 		"axios": "^0.24.0",

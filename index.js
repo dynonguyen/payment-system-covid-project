@@ -4,29 +4,34 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const { db } = require('./configs/db.config');
+const { db } = require('./src/configs/db.config');
 const path = require('path');
-const { MAX } = require('./constants');
+const { MAX } = require('./src/constants');
 const session = require('express-session');
 const passport = require('passport');
 const fs = require('fs');
 const https = require('https');
-const MainAccount = require('./models/main-account.model');
+const MainAccount = require('./src/models/main-account.model');
 
 /* ============== Import apis, middleware =============== */
-const { apiAuthentication } = require('./middleware/authentication.middleware');
-const { unlessRoute, authMiddleware } = require('./middleware/auth.middleware');
-const apiRoute = require('./routes/api.route');
-const authRoute = require('./routes/auth.route');
-const dashboardRoute = require('./routes/dashboard.route');
-const paymentHistoryRoute = require('./routes/payment-history.route');
-const changePasswordRoute = require('./routes/change-password.route');
-const putMoneyRoute = require('./routes/put-money.route');
-const fakePaymentSystemRoute = require('./routes/fake-payment-system.route');
-const PaymentLimit = require('./models/payment-limit.model');
+const {
+	apiAuthentication,
+} = require('./src/middleware/authentication.middleware');
+const {
+	unlessRoute,
+	authMiddleware,
+} = require('./src/middleware/auth.middleware');
+const apiRoute = require('./src/routes/api.route');
+const authRoute = require('./src/routes/auth.route');
+const dashboardRoute = require('./src/routes/dashboard.route');
+const paymentHistoryRoute = require('./src/routes/payment-history.route');
+const changePasswordRoute = require('./src/routes/change-password.route');
+const putMoneyRoute = require('./src/routes/put-money.route');
+const fakePaymentSystemRoute = require('./src/routes/fake-payment-system.route');
+const PaymentLimit = require('./src/models/payment-limit.model');
 
 /* ============== Config =============== */
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'src/public')));
 app.use(express.json({}));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SIGNED_COOKIE || 'signed_cookie'));
@@ -45,26 +50,36 @@ app.use(passport.session());
 
 // set view engine
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'src/views'));
 
-// set logging
-app.use(morgan('tiny'));
-
-// Config https for development environment
+// Config https for development environment & wake up heroku for production
 let server = app;
 if (process.env.NODE_ENV?.trim() === 'development') {
-	const key = fs.readFileSync(__dirname + '/key/key.pem');
-	const cert = fs.readFileSync(__dirname + '/key/cert.pem');
+	// set logging
+	app.use(morgan('tiny'));
+
+	const key = fs.readFileSync(path.join(__dirname, '/key/key.pem'));
+	const cert = fs.readFileSync(path.join(__dirname, '/key/cert.pem'));
 	const options = {
 		key: key,
 		cert: cert,
 	};
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 	server = https.createServer(options, app);
+} else {
+	app.disable('x-powered-by');
+	app.use(morgan('common'));
+
+	// Auto wake up heroku
+	app.get('/wakeup-heroku', (req, res) => res.send(''));
+	const timer = 25 * 60 * 1000; // 25 minutes
+	setInterval(() => {
+		https.get('https://cp-payment.herokuapp.com/wakeup-heroku');
+	}, timer);
 }
 
 /* ============== Apis =============== */
-app.use(unlessRoute(['/auth', '/api'], authMiddleware));
+app.use(unlessRoute(['/auth', '/api', '/wakeup-heroku'], authMiddleware));
 
 app.use('/api', apiAuthentication, apiRoute);
 app.use('/auth', authRoute);
