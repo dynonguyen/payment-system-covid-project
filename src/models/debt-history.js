@@ -7,7 +7,7 @@ const DebtHistory = db.define(
 		debtHistoryId: {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
-			autoIncrement: 1,
+			autoIncrement: true,
 		},
 		userId: {
 			type: DataTypes.INTEGER,
