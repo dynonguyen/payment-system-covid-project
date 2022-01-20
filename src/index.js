@@ -23,6 +23,7 @@ const paymentHistoryRoute = require('./routes/payment-history.route');
 const changePasswordRoute = require('./routes/change-password.route');
 const putMoneyRoute = require('./routes/put-money.route');
 const fakePaymentSystemRoute = require('./routes/fake-payment-system.route');
+const PaymentLimit = require('./models/payment-limit.model');
 
 /* ============== Config =============== */
 app.use(express.static(path.join(__dirname, 'public')));
@@ -82,13 +83,20 @@ const PORT = normalizePort(process.env.PORT || 3001);
 
 db.sync({ after: true }).then((_) => {
 	server.listen(PORT, () => {
-		// Create a main account if not exist
-		(async function () {
-			const isExistAccount = await MainAccount.count({});
-			if (!isExistAccount) {
-				await MainAccount.create({});
+		// Create a main account, payment limit if not exists
+		MainAccount.count({}).then((count) => {
+			if (count === 0) {
+				MainAccount.create({});
 			}
-		})();
+		});
+		PaymentLimit.count({}).then((count) => {
+			if (!count) {
+				PaymentLimit.create({
+					minimumLimit: 5,
+					maximumDebt: 10_000_000,
+				});
+			}
+		});
 		console.log(`Server is listening on port ${PORT}`);
 	});
 });
